@@ -56,7 +56,3 @@ Open your browser to `http://localhost:8501` to access the dashboard.
     *   `ui.py`: UI components and styling.
     *   ... (and many more specialized modules)
 *   `requirements.txt`: Python dependencies.
-
-## 🤝 Contribution
-
-Feel free to fork this project and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
