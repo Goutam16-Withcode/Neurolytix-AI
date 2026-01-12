@@ -22,3 +22,5 @@ scipy
 openpyxl
 prophet
 nltk
+textblob
+Pillow
