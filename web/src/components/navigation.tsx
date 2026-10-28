@@ -2,20 +2,19 @@
 
 import React from 'react';
 import { 
-  Brain, 
+  Compass,
   Database, 
-  Sparkles, 
-  Cpu, 
+  BarChart3, 
+  BrainCircuit, 
+  Rocket, 
   Scale, 
   FileText, 
-  Sliders, 
   CheckCircle2, 
   MessageSquareCode,
+  ArrowLeft,
   Activity,
-  Wifi,
-  WifiOff
+  Layers
 } from 'lucide-react';
-import { ShimmerBadge } from '@/components/ui/shimmer-badge';
 import { DatasetInfo } from '@/types';
 import { HealthStatus } from '@/lib/api';
 
@@ -23,131 +22,118 @@ interface NavigationProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   dataset: DatasetInfo | null;
-  proMode: boolean;
-  setProMode: (pro: boolean) => void;
   onOpenCopilot: () => void;
   backendHealth: HealthStatus;
+  onBackToHome?: () => void;
 }
 
 export function Navigation({
   activeTab,
   setActiveTab,
   dataset,
-  proMode,
-  setProMode,
   onOpenCopilot,
   backendHealth,
+  onBackToHome,
 }: NavigationProps) {
-  const tabs = [
-    { id: 'bento', label: 'Bento Hub', icon: Sparkles },
-    { id: 'data', label: 'Data Studio', icon: Database },
-    { id: 'automl', label: 'AutoML Tournament', icon: Cpu },
-    { id: 'jev', label: 'Agentic RAG & JEV', icon: Scale, highlight: true },
-    { id: 'reports', label: 'Executive Reports', icon: FileText },
+  const steps = [
+    { id: 'data', label: '1. Ingest Data', icon: Database },
+    { id: 'eda', label: '2. Dynamic EDA', icon: BarChart3 },
+    { id: 'scientist', label: '3. Data Scientist', icon: BrainCircuit },
+    { id: 'automl', label: '4. Model & Deploy', icon: Rocket },
+    { id: 'jev', label: '5. JEV Decisions', icon: Scale },
+    { id: 'reports', label: '6. Reports', icon: FileText },
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo & Brand */}
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-700 to-cyan-500 flex items-center justify-center shadow-md shadow-indigo-600/20 text-white">
-              <Brain className="h-5 w-5" />
+    <header className="sticky top-3 z-50 max-w-7xl mx-auto px-4 w-full">
+      {/* Floating Dark Shadow Pill Bar - Identical to Front Page Navbar */}
+      <div className="relative rounded-2xl sm:rounded-full border border-white/[0.12] bg-[#080C17]/90 backdrop-blur-2xl px-4 py-2.5 sm:px-6 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(37,99,235,0.18),inset_0_1px_1px_rgba(255,255,255,0.15)] transition-all">
+        {/* Subtle Ambient Beam */}
+        <div className="absolute top-0 inset-x-12 h-[1px] bg-gradient-to-r from-transparent via-blue-400/50 to-transparent pointer-events-none" />
+
+        {/* Brand & Home Navigation */}
+        <div className="flex items-center gap-3">
+          {onBackToHome && (
+            <button
+              onClick={onBackToHome}
+              className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition cursor-pointer"
+              title="Return to Front Page"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </button>
+          )}
+
+          <div className="flex items-center gap-2.5">
+            <div className="h-7 w-7 rounded-full bg-white flex items-center justify-center text-[#030712] shadow-md shadow-white/30">
+              <Compass className="h-4 w-4 text-[#030712]" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-xl tracking-tight text-slate-900 font-outfit">
-                  Neurolytix<span className="text-indigo-600">.AI</span>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-sm tracking-tight text-white font-outfit">
+                  Neurolytix
                 </span>
-                <span className="px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-100 text-[10px] font-bold text-indigo-700">
-                  Enterprise 2.0
+                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.2 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                  Studio
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 font-medium">Automated ML & Decision Intelligence</p>
             </div>
           </div>
+        </div>
 
-          {/* Navigation Tabs */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-100/90 p-1 rounded-xl border border-slate-200/80">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
-                    isActive
-                      ? 'bg-white text-indigo-600 shadow-xs font-bold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-                  }`}
-                >
-                  <Icon className={`h-4 w-4 ${isActive ? 'text-indigo-600' : 'text-slate-500'}`} />
-                  <span>{tab.label}</span>
-                  {tab.highlight && (
-                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 animate-pulse" />
-                  )}
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Right Status & Actions */}
-          <div className="flex items-center gap-3">
-            {/* Live Backend Connection Indicator */}
-            <div
-              className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold border ${
-                backendHealth.online
-                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                  : 'bg-amber-50 text-amber-700 border-amber-200'
-              }`}
-              title={backendHealth.online ? `FastAPI running on :8000 (${backendHealth.latencyMs}ms)` : 'FastAPI server offline'}
-            >
-              <span
-                className={`h-2 w-2 rounded-full ${
-                  backendHealth.online ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
-                }`}
-              />
-              <span>{backendHealth.online ? `API :8000 (${backendHealth.latencyMs}ms)` : 'API Offline'}</span>
-            </div>
-
-            {/* Active Dataset Pill */}
-            {dataset ? (
-              <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium">
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-                <span className="max-w-[120px] truncate">{dataset.name}</span>
-                <span className="text-slate-500 font-bold">({dataset.rows.toLocaleString()} rows)</span>
-              </div>
-            ) : null}
-
-            {/* Pro Mode Switch */}
-            <div className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-xs">
-              <Sliders className="h-3.5 w-3.5 text-slate-500" />
-              <span className="text-slate-600 font-medium hidden sm:inline">Pro</span>
+        {/* Sequential Workflow Tabs (Exact Match to Dark Luxury Capsule) */}
+        <nav className="flex items-center gap-1 overflow-x-auto p-1 rounded-xl sm:rounded-full bg-white/5 border border-white/5 max-w-full">
+          {steps.map((step) => {
+            const Icon = step.icon;
+            const isActive = activeTab === step.id;
+            return (
               <button
-                onClick={() => setProMode(!proMode)}
-                className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                  proMode ? 'bg-indigo-600' : 'bg-slate-300'
+                key={step.id}
+                onClick={() => setActiveTab(step.id)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                  isActive
+                    ? 'bg-[#2563EB] text-white shadow-lg shadow-blue-600/40 ring-1 ring-blue-400/50'
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
                 }`}
               >
-                <span
-                  className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                    proMode ? 'translate-x-4' : 'translate-x-0'
-                  }`}
-                />
+                <Icon className={`h-3.5 w-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                <span>{step.label}</span>
               </button>
-            </div>
+            );
+          })}
+        </nav>
 
-            {/* AI Copilot Button */}
-            <button
-              onClick={onOpenCopilot}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-semibold shadow-sm hover:bg-indigo-700 transition cursor-pointer"
-            >
-              <MessageSquareCode className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Ask AI</span>
-            </button>
+        {/* Right Status Indicators & Copilot Trigger */}
+        <div className="flex items-center gap-2.5">
+          {/* Active Dataset Pill */}
+          {dataset && (
+            <div className="hidden xl:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] text-slate-300 font-mono">
+              <span className="h-2 w-2 rounded-full bg-blue-400" />
+              <span className="truncate max-w-[110px]">{dataset.filename}</span>
+              <span className="text-slate-500">({dataset.rows}r)</span>
+            </div>
+          )}
+
+          {/* Backend Status Badge */}
+          <div
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold border font-mono ${
+              backendHealth.online
+                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+            }`}
+          >
+            <span className={`h-2 w-2 rounded-full ${backendHealth.online ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+            <span className="hidden sm:inline">{backendHealth.online ? `API :8000 (${backendHealth.latencyMs}ms)` : 'API Offline'}</span>
+            <span className="sm:hidden">{backendHealth.online ? 'Live' : 'Offline'}</span>
           </div>
+
+          {/* Copilot Drawer CTA */}
+          <button
+            onClick={onOpenCopilot}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-[0_0_20px_rgba(37,99,235,0.4)] transition cursor-pointer hover:scale-105 active:scale-95"
+          >
+            <MessageSquareCode className="h-3.5 w-3.5" />
+            <span className="hidden md:inline">AI Copilot</span>
+          </button>
         </div>
       </div>
     </header>

@@ -1,99 +1,92 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --bg-canvas: #ffffff;
-    --bg-subtle: #f8fafc;
-    --bg-surface: rgba(255, 255, 255, 0.85);
-    --border-subtle: rgba(226, 232, 240, 0.8);
-    --border-glow: rgba(99, 102, 241, 0.25);
-    
-    --primary: #4f46e5;
-    --primary-light: #e0e7ff;
-    --accent-cyan: #06b6d4;
-    --accent-emerald: #10b981;
-    --accent-amber: #f59e0b;
-    --accent-purple: #8b5cf6;
-    
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-muted: #94a3b8;
-  }
+:root {
+  --bg-dark: #030712;
+  --bg-card: #090D1A;
+  --bg-elevated: #0E1424;
+  --border-subtle: rgba(255, 255, 255, 0.12);
+  --border-glow: rgba(37, 99, 235, 0.4);
+  
+  --primary: #2563EB;
+  --primary-glow: rgba(37, 99, 235, 0.35);
+  --accent-cyan: #38BDF8;
+  --accent-emerald: #10B981;
+  --accent-amber: #F59E0B;
+  --accent-rose: #F43F5E;
 }
 
-/* Custom Light Background Grid inspired by Aceternity */
-.aceternity-grid {
-  background-size: 32px 32px;
+body {
+  background-color: #030712;
+  color: #F8FAFC;
+  font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+.font-outfit {
+  font-family: var(--font-outfit), 'Outfit', system-ui, sans-serif;
+}
+
+/* Subtle Webflow AI Mesh Grid */
+.webflow-ai-grid {
+  background-size: 40px 40px;
   background-image: 
-    linear-gradient(to right, rgba(226, 232, 240, 0.6) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(226, 232, 240, 0.6) 1px, transparent 1px);
-  mask-image: radial-gradient(ellipse 65% 55% at 50% 25%, #000 65%, transparent 100%);
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 25%, #000 70%, transparent 100%);
 }
 
-.aceternity-dots {
-  background-image: radial-gradient(rgba(203, 213, 225, 0.7) 1px, transparent 1px);
-  background-size: 24px 24px;
+/* Glassmorphic Luxury Dark Card (Webflow driftmap style) */
+.dark-glass-card {
+  background: rgba(9, 13, 26, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 25px rgba(37, 99, 235, 0.08);
+  border-radius: 1.25rem;
 }
 
-/* Translucent Frosted Glass Card */
-.glass-card {
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 10px -6px rgba(15, 23, 42, 0.02);
+.dark-glass-card:hover {
+  border-color: rgba(37, 99, 235, 0.4);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(37, 99, 235, 0.2);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.glass-card-hover {
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+/* Gradient Text Shimmer */
+.gradient-heading {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 50%, #93C5FD 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.glass-card-hover:hover {
-  transform: translateY(-2px);
-  border-color: rgba(99, 102, 241, 0.35);
-  box-shadow: 0 16px 32px -8px rgba(99, 102, 241, 0.12), 0 0 0 1px rgba(99, 102, 241, 0.1);
+.gradient-accent {
+  background: linear-gradient(135deg, #60A5FA 0%, #2563EB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Aurora Flow Gradient Animation */
-@keyframes aurora {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animate-aurora {
-  background-size: 200% 200%;
-  animation: aurora 12s ease infinite;
-}
-
-/* Shimmer Button Effect */
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.shimmer-effect::after {
-  content: '';
+/* Celestial Sapphire Mesh Glows */
+.celestial-mesh {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.35) 50%,
-    transparent 100%
-  );
-  animation: shimmer 2.4s infinite;
+  pointer-events: none;
+  border-radius: 9999px;
+  filter: blur(140px);
+}
+
+/* Custom Webflow Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030712;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3B82F6;
 }
